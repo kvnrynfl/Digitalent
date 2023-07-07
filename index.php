@@ -1,3 +1,5 @@
+<?php include './controller/getData.php'; ?>
+
 <!doctype html>
 <html lang="en">
 
@@ -8,7 +10,9 @@
     <title>Tugas Digitalent</title>
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- DataTable CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css">
     <!-- Custom CSS File -->
     <link rel="stylesheet" href="style.css">
 </head>
@@ -39,32 +43,116 @@
         </div>
     </nav>
 
-
     <div class="tab-content" id="TabContent">
         <!-- content for home -->
         <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-            
+            <div class="container">
+                <table id="TabelHome" class="table table-striped table-bordered table-responsive table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">NO</th>
+                            <th scope="col">Nama</th>
+                            <th scope="col">Alamat</th>
+                            <th scope="col">Jenis Kelamin</th>
+                            <th scope="col">Usia</th>
+                            <th scope="col">Tanggal Lahir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                        $result = getDataUser();
+                        $sn = 1;
+                        while ($row = mysqli_fetch_assoc($result)) {
+                        $today = date_create();
+                        $birthday = date_create($row['tanggal_lahir']);
+                        $diff = date_diff($birthday, $today);
+                        $usia = $diff->y;
+                        
+                        ?>
+                        <tr>
+                            <td scope="row"><?= $sn++; ?></td>
+                            <td><?= $row['nama']; ?></td>
+                            <td><?= $row['alamat']; ?></td>
+                            <td><?= $row['jenis_kelamin']; ?></td>
+                            <td><?= $usia ?></td>
+                            <td><?= $row['tanggal_lahir']; ?></td>
+                        </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!-- content for create -->
         <div class="tab-pane fade" id="create-tab-pane" role="tabpanel" aria-labelledby="create-tab" tabindex="0">
-           
+            <div class="container">
+                <form action="./controller/postData.php" method="POST">
+                    <div class="input-group mb-3">
+                        <label for="nama" class="col-sm-2 col-form-label">Nama</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="nama" id="nama" placeholder="" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" name="alamat" id="alamat" rows="2" required></textarea>
+                        </div>
+                    </div>
+
+                    <fieldset class="input-group mb-3">
+                        <legend class="col-form-label col-sm-2 pt-0">Jenis Kelamin</legend>
+                        <div class="col-sm-10">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="jeniskelamin" id="lakilaki" value="Laki-Laki" checked>
+                                <label class="form-check-label" for="lakilaki">Laki-Laki</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="jeniskelamin" id="perempuan" value="Perempuan">
+                                <label class="form-check-label" for="perempuan">Perempuan</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="jeniskelamin" id="lainnya" value="Lainnya">
+                                <label class="form-check-label" for="lainnya">Lainnya</label>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="input-group mb-3">
+                        <label for="tanggallahir" class="col-sm-2 col-form-label">Tanggal lahir</label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" name="tanggallahir" id="tanggallahir" required>
+                        </div>
+                    </div>
+
+                    <div class="d-grid mx-auto">
+                        <button type="submit" class="btn btn-primary" name="createnewdata">Submit</button>
+                    </div>
+                </form>
+            </div>
         </div>
 
         <!-- content for update -->
         <div class="tab-pane fade" id="update-tab-pane" role="tabpanel" aria-labelledby="update-tab" tabindex="0">
-           
+
         </div>
 
         <!-- content for delete -->
         <div class="tab-pane fade" id="delete-tab-pane" role="tabpanel" aria-labelledby="delete-tab" tabindex="0">
-            
+
         </div>
     </div>
 
+    <!-- jQuery, DataTables, PopperJS, BootstrapJS -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
     <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>
