@@ -38,6 +38,9 @@
                     <li class="nav-item">
                         <a class="nav-link" id="delete-tab" data-bs-toggle="tab" data-bs-target="#delete-tab-pane" type="button" role="tab" aria-controls="delete-tab-pane" aria-selected="true">Delete Data</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./JavaScriptLogicTest/">JS Logic Test</a>
+                    </li>
                 </ul>
             </div>
         </div>
