@@ -19,3 +19,18 @@ function validateLogin() {
         }, 3000);
     }
 }
+
+function formLoop() {
+    const input = document.getElementById("jumlah");
+    const output = document.getElementById("output");
+
+    const jumlah = parseInt(input.value);
+
+    let outputText = "";
+
+    for (let i = 1; i <= jumlah; i++) {
+        outputText += `Looping ke-${i}<br>`;
+    }
+
+    output.innerHTML = outputText;
+}
