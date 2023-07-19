@@ -51,6 +51,9 @@
   background-color: #0069d9;
 }
 
+.div-kalkulator {
+  display: none;
+}
 .alert {
   padding: 10px 8px;
   margin-bottom: 15px;
